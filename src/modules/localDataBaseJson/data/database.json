@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "0ad770a3-4984-4bef-a264-36cb43373b11",
+      "name": "João Pedro",
+      "contact": "18991238584",
+      "adress": "Rua Renê Antonio Sanches"
+    },
+    {
+      "id": "96d201c3-4726-4dbc-aa29-1257bc78942d",
+      "name": "Marikinha",
+      "contact": "18991238584",
+      "adress": "Rua Renê Antonio Sanchesa"
+    },
+    {
+      "id": "f4116a47-bb94-495b-92c9-aed0f211ac97",
+      "name": "Marikinho",
+      "contact": "18991238584",
+      "adress": "Rua Renê Antonio Sanches"
+    }
+  ]
+}
