@@ -4,18 +4,18 @@ export default abstract class UsersSchemas{
         static getAll(){
             return {
                 schema: {
-                tags: ["users"],
-                description : "Get all users",
-                response: {
-                    200: z.array(z.object({
-                        id: z.string(),
-                        name: z.string(),
-                        adress: z.string(),
-                        contact: z.string(),
-                        preferences: z.string().optional(),
-                        purchase_his: z.array(z.number()).optional()
-                    }))
-                }
+                    tags: ["users"],
+                    description : "Get all users",
+                    response: {
+                        200: z.array(z.object({
+                            id: z.string(),
+                            name: z.string(),
+                            adress: z.string(),
+                            contact: z.string(),
+                            preferences: z.string().optional(),
+                            purchase_his: z.array(z.number()).optional()
+                        }))
+                    }
                 }
             }
         }
@@ -52,6 +52,9 @@ export default abstract class UsersSchemas{
                     }),
                     response: {
                         201: z.null().describe("User created"),
+                        400: z.object({
+                            message: z.string().nonempty()
+                        }).describe("Bad Request")
                     }
                 }
             }

@@ -19,7 +19,7 @@ export async function usersRoutes(app: FastifyTypedInstance){
     const UserController = new UserControllerClass(users);
     dataBaseManager.useFlashData("users",await UserController.getAllUsersInfra());
 
-    app.get("/users", (req,res) => { UserController.getAllUsers(req,res) });
+    app.get("/users", UsersSchemas.getAll(),(req,res) => { UserController.getAllUsers(req,res) });
     app.get("/users/:id",UsersSchemas.getOne(),(req,res) => { UserController.getUser(req,res) });
 
     app.post("/users",UsersSchemas.createNew(), (req,res) => { UserController.createUser(req,res) });
