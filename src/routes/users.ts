@@ -23,4 +23,8 @@ export async function usersRoutes(app: FastifyTypedInstance){
     app.get("/users/:id",UsersSchemas.getOne(),(req,res) => { UserController.getUser(req,res) });
 
     app.post("/users",UsersSchemas.createNew(), (req,res) => { UserController.createUser(req,res) });
+
+    app.put("/users/:id",UsersSchemas.update(),(req,res) => { UserController.updateUser(req,res) });
+
+    app.delete("/users/:id",UsersSchemas.delete(),(req,res) => { UserController.deleteUser(req,res) });
 }

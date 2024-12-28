@@ -16,7 +16,7 @@ app.register(fastifyCors, { origin: "*" });
 app.register(fastifySwagger, {
     openapi: {
         info: {
-            title: "Fastify API",
+            title: "Restaurant API",
             version: "0.1.0"
         }
     },

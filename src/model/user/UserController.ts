@@ -42,4 +42,10 @@ export default class UserController{
 
         return res.status(201).send()
     }
+    public async updateUser(req : FastifyRequest ,res : FastifyReply){
+        res.send(this.users[0])
+    }
+    public async deleteUser(req : FastifyRequest ,res : FastifyReply){
+
+    }
 }
