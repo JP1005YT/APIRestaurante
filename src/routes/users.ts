@@ -2,22 +2,12 @@ import { FastifyTypedInstance } from "./../types";
 import { UserInterface } from "../model/user/UserInterface";
 import UsersSchemas from "../model/user/UserSchemas";
 import UserControllerClass from "../model/user/UserController";
-import dataBaseManagerClass from "./../modules/localDataBaseJson/main";
 
 const users: UserInterface[] = [];
-const dataBaseManager = new dataBaseManagerClass();
-
-async function getAllUsers(): Promise<UserInterface[]> {
-    const data = await dataBaseManager.getData("users");
-    return data
-}
 
 export async function usersRoutes(app: FastifyTypedInstance){
     
-    const dataBaseUsers = await getAllUsers();
-    users.push(...dataBaseUsers);
     const UserController = new UserControllerClass(users);
-    dataBaseManager.useFlashData("users",await UserController.getAllUsersInfra());
 
     app.get("/users", UsersSchemas.getAll(),(req,res) => { UserController.getAllUsers(req,res) });
     app.get("/users/:id",UsersSchemas.getOne(),(req,res) => { UserController.getUser(req,res) });
@@ -27,4 +17,5 @@ export async function usersRoutes(app: FastifyTypedInstance){
     app.put("/users/:id",UsersSchemas.update(),(req,res) => { UserController.updateUser(req,res) });
 
     app.delete("/users/:id",UsersSchemas.delete(),(req,res) => { UserController.deleteUser(req,res) });
+    
 }

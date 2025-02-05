@@ -5,6 +5,7 @@ import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { usersRoutes } from "./routes/users";
 import { adminRoutes } from "./routes/admin";
+import { tablesRoutes } from "./routes/tables";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -17,7 +18,7 @@ app.register(fastifySwagger, {
     openapi: {
         info: {
             title: "Restaurant API",
-            version: "0.1.0"
+            version: "1.0"
         }
     },
     transform: jsonSchemaTransform
@@ -28,6 +29,7 @@ app.register(fastifySwaggerUi, {
 })
 
 app.register(usersRoutes)
+app.register(tablesRoutes)
 app.register(adminRoutes)
 
 app.listen({port : 3333}).then(() => {

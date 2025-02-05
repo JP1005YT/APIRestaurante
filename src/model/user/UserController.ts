@@ -31,13 +31,16 @@ export default class UserController{
 
     public async createUser(req : FastifyRequest ,res : FastifyReply){
 
-        const {name, contact, adress} = req.body as { name: string; contact: string; adress: string };
+        const {name,rg,cpf, contact, adress , isVerified } = req.body as { name: string; cpf:string; rg:string; contact: string; adress: string; isVerified : boolean; };
 
         this.users.push({
             id: randomUUID(),
             name,
+            cpf,
+            rg,
             contact,
             adress,
+            isVerified,
         });
 
         return res.status(201).send()
