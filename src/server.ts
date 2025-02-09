@@ -3,6 +3,15 @@ import { fastifyCors } from "@fastify/cors";
 import { validatorCompiler , serializerCompiler , type ZodTypeProvider, jsonSchemaTransform } from "fastify-type-provider-zod";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
+
+// Database Module
+
+import { dataManager } from "./modules/dataManager/main";
+const db = new dataManager();
+db.SyncData();
+
+// Routes
+
 import { usersRoutes } from "./routes/users";
 import { adminRoutes } from "./routes/admin";
 import { tablesRoutes } from "./routes/tables";

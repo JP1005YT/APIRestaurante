@@ -1,0 +1,9 @@
+{
+    "restaurant" : {
+        "name" : "The Noodle House",
+        "location" : "Dubai Mall",
+        "cuisine" : "Asian",
+        "rating" : 4.5,
+        "tables" : 8
+    }
+}
