@@ -15,6 +15,8 @@ db.SyncData();
 import { usersRoutes } from "./routes/users";
 import { adminRoutes } from "./routes/admin";
 import { tablesRoutes } from "./routes/tables";
+import { productsRoutes } from "./routes/products";
+import { ordersRoutes } from "./routes/orders";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -39,6 +41,8 @@ app.register(fastifySwaggerUi, {
 
 app.register(usersRoutes)
 app.register(tablesRoutes)
+app.register(productsRoutes)
+app.register(ordersRoutes)
 app.register(adminRoutes)
 
 app.listen({port : 3333}).then(() => {

@@ -1,9 +1,10 @@
 import { dataManager } from "../modules/dataManager/main";
 
 export default class BaseController {
-    protected db
+    protected db: any;
 
     constructor() {
-        this.db = new dataManager();
+        const dbManager = new dataManager();
+        this.db = dbManager.Sqlite();
     }
 }

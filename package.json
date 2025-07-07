@@ -16,9 +16,10 @@
   },
   "name": "apirestaurante",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

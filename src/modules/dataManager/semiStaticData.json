@@ -4,6 +4,121 @@
         "location" : "Dubai Mall",
         "cuisine" : "Asian",
         "rating" : 4.5,
-        "tables" : 8
+        "tables" : [
+            {
+                "id": "table_1",
+                "number": 1,
+                "capacity": 4,
+                "status": "available"
+            },
+            {
+                "id": "table_2",
+                "number": 2,
+                "capacity": 2,
+                "status": "available"
+            },
+            {
+                "id": "table_3",
+                "number": 3,
+                "capacity": 6,
+                "status": "available"
+            },
+            {
+                "id": "table_4",
+                "number": 4,
+                "capacity": 4,
+                "status": "available"
+            },
+            {
+                "id": "table_5",
+                "number": 5,
+                "capacity": 8,
+                "status": "available"
+            },
+            {
+                "id": "table_6",
+                "number": 6,
+                "capacity": 2,
+                "status": "available"
+            },
+            {
+                "id": "table_7",
+                "number": 7,
+                "capacity": 4,
+                "status": "available"
+            },
+            {
+                "id": "table_8",
+                "number": 8,
+                "capacity": 6,
+                "status": "available"
+            }
+        ],
+        "products": [
+            {
+                "id": "prod_1",
+                "name": "Pad Thai",
+                "description": "Macarrão de arroz refogado com camarão, tofu e amendoim",
+                "price": 28.90,
+                "category": "Pratos Principais",
+                "image": "https://example.com/pad-thai.jpg"
+            },
+            {
+                "id": "prod_2",
+                "name": "Ramen Tonkotsu",
+                "description": "Sopa de macarrão com caldo de osso de porco e chashu",
+                "price": 32.50,
+                "category": "Pratos Principais",
+                "image": "https://example.com/ramen.jpg"
+            },
+            {
+                "id": "prod_3",
+                "name": "Yakisoba",
+                "description": "Macarrão refogado com legumes e molho especial",
+                "price": 24.90,
+                "category": "Pratos Principais",
+                "image": "https://example.com/yakisoba.jpg"
+            },
+            {
+                "id": "prod_4",
+                "name": "Gyoza",
+                "description": "Dumplings fritos recheados com carne e vegetais",
+                "price": 18.90,
+                "category": "Entradas",
+                "image": "https://example.com/gyoza.jpg"
+            },
+            {
+                "id": "prod_5",
+                "name": "Sushi Combo",
+                "description": "Combinado de sushi e sashimi variados",
+                "price": 45.90,
+                "category": "Pratos Principais",
+                "image": "https://example.com/sushi.jpg"
+            },
+            {
+                "id": "prod_6",
+                "name": "Chá Verde",
+                "description": "Chá verde tradicional japonês",
+                "price": 8.90,
+                "category": "Bebidas",
+                "image": "https://example.com/green-tea.jpg"
+            },
+            {
+                "id": "prod_7",
+                "name": "Sake",
+                "description": "Sake tradicional japonês servido quente ou gelado",
+                "price": 22.90,
+                "category": "Bebidas",
+                "image": "https://example.com/sake.jpg"
+            },
+            {
+                "id": "prod_8",
+                "name": "Mochi",
+                "description": "Doce japonês de arroz com recheio de feijão doce",
+                "price": 12.90,
+                "category": "Sobremesas",
+                "image": "https://example.com/mochi.jpg"
+            }
+        ]
     }
 }
