@@ -1,13 +1,11 @@
 import { FastifyTypedInstance } from "./../types";
-import { UserInterface } from "../model/user/UserInterface";
 import UsersSchemas from "../model/user/UserSchemas";
 import UserControllerClass from "../model/user/UserController";
 
-const users: UserInterface[] = [];
-
 export async function usersRoutes(app: FastifyTypedInstance){
-    
-    const UserController = new UserControllerClass(users);
+    // @ts-ignore - propriedade decorada em runtime
+    const db = (app as any).db as import('better-sqlite3').Database;
+    const UserController = new UserControllerClass(db);
 
     app.get("/users", UsersSchemas.getAll(),(req,res) => { UserController.getAllUsers(req,res) });
     app.get("/users/:id",UsersSchemas.getOne(),(req,res) => { UserController.getUser(req,res) });
@@ -17,5 +15,4 @@ export async function usersRoutes(app: FastifyTypedInstance){
     app.put("/users/:id",UsersSchemas.update(),(req,res) => { UserController.updateUser(req,res) });
 
     app.delete("/users/:id",UsersSchemas.delete(),(req,res) => { UserController.deleteUser(req,res) });
-    
 }

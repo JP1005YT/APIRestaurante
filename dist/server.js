@@ -31,6 +31,8 @@ app.register(swagger_1.fastifySwagger, {
 app.register(swagger_ui_1.fastifySwaggerUi, {
     routePrefix: "/docs",
 });
+// Decorate app com a conexão do banco para uso nas rotas
+app.decorate('db', db.Sqlite());
 app.register(users_1.usersRoutes);
 app.register(tables_1.tablesRoutes);
 app.register(products_1.productsRoutes);

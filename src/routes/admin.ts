@@ -23,18 +23,18 @@ export async function adminRoutes(app: FastifyTypedInstance){
         }
     }, async (req, res) => {
         try {
-            const db = (req as any).db || require('../modules/dataManager/main').dataManager.prototype.db;
+            const db = (req.server as any).db as import('better-sqlite3').Database;
             
-            const totalOrders = db.prepare("SELECT COUNT(*) as count FROM orders").get()?.count || 0;
-            const totalRevenue = db.prepare("SELECT SUM(total) as sum FROM orders WHERE status = 'delivered'").get()?.sum || 0;
-            const totalTables = db.prepare("SELECT COUNT(*) as count FROM tables").get()?.count || 0;
-            const totalProducts = db.prepare("SELECT COUNT(*) as count FROM products").get()?.count || 0;
+            const totalOrders = (db.prepare("SELECT COUNT(*) as count FROM orders").get() as {count?: number} | undefined)?.count || 0;
+            const totalRevenue = (db.prepare("SELECT SUM(total) as sum FROM orders WHERE status = 'delivered'").get() as {sum?: number} | undefined)?.sum || 0;
+            const totalTables = (db.prepare("SELECT COUNT(*) as count FROM tables").get() as {count?: number} | undefined)?.count || 0;
+            const totalProducts = (db.prepare("SELECT COUNT(*) as count FROM products").get() as {count?: number} | undefined)?.count || 0;
             
             const ordersByStatusResult = db.prepare(`
                 SELECT status, COUNT(*) as count 
                 FROM orders 
                 GROUP BY status
-            `).all();
+            `).all() as Array<{status: string; count: number}>;
             
             const ordersByStatus: Record<string, number> = {};
             ordersByStatusResult.forEach((row: any) => {
@@ -81,7 +81,7 @@ export async function adminRoutes(app: FastifyTypedInstance){
     }, async (req, res) => {
         try {
             const { start_date, end_date } = req.query as { start_date?: string, end_date?: string };
-            const db = (req as any).db || require('../modules/dataManager/main').dataManager.prototype.db;
+            const db = (req.server as any).db as import('better-sqlite3').Database;
             
             let dateFilter = "";
             const params: any[] = [];
@@ -99,7 +99,7 @@ export async function adminRoutes(app: FastifyTypedInstance){
                 FROM orders o
                 ${dateFilter}
                 AND status = 'delivered'
-            `).get(...params);
+            `).get(...params) as { totalSales?: number; orderCount?: number; averageOrderValue?: number } | undefined;
             
             const topProducts = db.prepare(`
                 SELECT 
@@ -114,7 +114,7 @@ export async function adminRoutes(app: FastifyTypedInstance){
                 GROUP BY p.id, p.name
                 ORDER BY revenue DESC
                 LIMIT 10
-            `).all(...params);
+            `).all(...params) as Array<{ product_name: string; quantity_sold: number; revenue: number }>;
             
             res.send({
                 totalSales: salesData?.totalSales || 0,
@@ -149,7 +149,7 @@ export async function adminRoutes(app: FastifyTypedInstance){
             
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
             const backupFileName = `backup_${timestamp}.db`;
-            const sourcePath = path.join(__dirname, '../../modules/dataManager/bd.db');
+            const sourcePath = path.join(__dirname, '../modules/dataManager/bd.db');
             const backupPath = path.join(__dirname, '../../../backups', backupFileName);
             
             // Criar diretório de backup se não existir

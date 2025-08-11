@@ -8,7 +8,9 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
 class dataManager {
-    sqlconn = new better_sqlite3_1.default('bd.db');
+    // Garante que o arquivo do banco fique ao lado deste módulo (alinha com backup)
+    dbPath = path_1.default.resolve(__dirname, 'bd.db');
+    sqlconn = new better_sqlite3_1.default(path_1.default.resolve(__dirname, 'bd.db'));
     jsonconn = fs_1.default.readFileSync(path_1.default.resolve(__dirname, 'semiStaticData.json'), 'utf-8');
     Json() {
         return JSON.parse(this.jsonconn);
@@ -72,13 +74,16 @@ class dataManager {
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )
         `);
-        // Tabela de usuários
+        // Tabela de usuários (alinhada ao UserInterface)
         this.sqlconn.exec(`
             CREATE TABLE IF NOT EXISTS users (
                 id TEXT PRIMARY KEY,
                 name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                role TEXT DEFAULT 'customer'
+                cpf TEXT NOT NULL,
+                rg TEXT NOT NULL,
+                contact TEXT NOT NULL,
+                adress TEXT NOT NULL,
+                isVerified INTEGER NOT NULL DEFAULT 0
             )
         `);
         console.log("Tables created successfully");

@@ -3,7 +3,9 @@ import path from 'path';
 import Database from 'better-sqlite3';
 
 export class dataManager{
-    public sqlconn = new Database('bd.db');
+    // Garante que o arquivo do banco fique ao lado deste módulo (alinha com backup)
+    private dbPath = path.resolve(__dirname, 'bd.db');
+    public sqlconn = new Database(path.resolve(__dirname, 'bd.db'));
     public jsonconn = fs.readFileSync(path.resolve(__dirname, 'semiStaticData.json'), 'utf-8');
 
     public Json(){
@@ -42,6 +44,20 @@ export class dataManager{
                 status TEXT DEFAULT 'available'
             )
         `);
+        // Migração: garantir colunas ausentes em 'tables'
+        try{
+            const cols = this.sqlconn.prepare("PRAGMA table_info('tables')").all() as Array<{name: string}>;
+            const colNames = new Set(cols.map(c => c.name));
+            if(!colNames.has('number')){
+                this.sqlconn.exec("ALTER TABLE tables ADD COLUMN number INTEGER");
+            }
+            if(!colNames.has('capacity')){
+                this.sqlconn.exec("ALTER TABLE tables ADD COLUMN capacity INTEGER");
+            }
+            if(!colNames.has('status')){
+                this.sqlconn.exec("ALTER TABLE tables ADD COLUMN status TEXT DEFAULT 'available'");
+            }
+        }catch{}
 
         // Tabela de produtos
         this.sqlconn.exec(`
@@ -79,15 +95,38 @@ export class dataManager{
             )
         `);
 
-        // Tabela de usuários
+        // Tabela de usuários (alinhada ao UserInterface)
         this.sqlconn.exec(`
             CREATE TABLE IF NOT EXISTS users (
                 id TEXT PRIMARY KEY,
                 name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                role TEXT DEFAULT 'customer'
+                cpf TEXT NOT NULL,
+                rg TEXT NOT NULL,
+                contact TEXT NOT NULL,
+                adress TEXT NOT NULL,
+                isVerified INTEGER NOT NULL DEFAULT 0
             )
         `);
+        // Migração: garantir colunas ausentes em 'users'
+        try{
+            const ucols = this.sqlconn.prepare("PRAGMA table_info('users')").all() as Array<{name: string}>;
+            const ucolNames = new Set(ucols.map(c => c.name));
+            if(!ucolNames.has('cpf')){
+                this.sqlconn.exec("ALTER TABLE users ADD COLUMN cpf TEXT");
+            }
+            if(!ucolNames.has('rg')){
+                this.sqlconn.exec("ALTER TABLE users ADD COLUMN rg TEXT");
+            }
+            if(!ucolNames.has('contact')){
+                this.sqlconn.exec("ALTER TABLE users ADD COLUMN contact TEXT");
+            }
+            if(!ucolNames.has('adress')){
+                this.sqlconn.exec("ALTER TABLE users ADD COLUMN adress TEXT");
+            }
+            if(!ucolNames.has('isVerified')){
+                this.sqlconn.exec("ALTER TABLE users ADD COLUMN isVerified INTEGER DEFAULT 0");
+            }
+        }catch{}
 
         console.log("Tables created successfully");
     }

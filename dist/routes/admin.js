@@ -23,7 +23,7 @@ async function adminRoutes(app) {
         }
     }, async (req, res) => {
         try {
-            const db = req.db || require('../modules/dataManager/main').dataManager.prototype.db;
+            const db = req.server.db;
             const totalOrders = db.prepare("SELECT COUNT(*) as count FROM orders").get()?.count || 0;
             const totalRevenue = db.prepare("SELECT SUM(total) as sum FROM orders WHERE status = 'delivered'").get()?.sum || 0;
             const totalTables = db.prepare("SELECT COUNT(*) as count FROM tables").get()?.count || 0;
@@ -77,7 +77,7 @@ async function adminRoutes(app) {
     }, async (req, res) => {
         try {
             const { start_date, end_date } = req.query;
-            const db = req.db || require('../modules/dataManager/main').dataManager.prototype.db;
+            const db = req.server.db;
             let dateFilter = "";
             const params = [];
             if (start_date && end_date) {
@@ -139,7 +139,7 @@ async function adminRoutes(app) {
             const path = require('path');
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
             const backupFileName = `backup_${timestamp}.db`;
-            const sourcePath = path.join(__dirname, '../../modules/dataManager/bd.db');
+            const sourcePath = path.join(__dirname, '../modules/dataManager/bd.db');
             const backupPath = path.join(__dirname, '../../../backups', backupFileName);
             // Criar diretório de backup se não existir
             const backupDir = path.dirname(backupPath);

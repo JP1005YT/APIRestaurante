@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersRoutes = usersRoutes;
 const UserSchemas_1 = __importDefault(require("../model/user/UserSchemas"));
 const UserController_1 = __importDefault(require("../model/user/UserController"));
-const users = [];
 async function usersRoutes(app) {
-    const UserController = new UserController_1.default(users);
+    // @ts-ignore - propriedade decorada em runtime
+    const db = app.db;
+    const UserController = new UserController_1.default(db);
     app.get("/users", UserSchemas_1.default.getAll(), (req, res) => { UserController.getAllUsers(req, res); });
     app.get("/users/:id", UserSchemas_1.default.getOne(), (req, res) => { UserController.getUser(req, res); });
     app.post("/users", UserSchemas_1.default.createNew(), (req, res) => { UserController.createUser(req, res); });
